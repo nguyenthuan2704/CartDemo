@@ -1,0 +1,159 @@
+﻿@model IEnumerable<CartDemo.Models.Cart>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- banner-2 -->
+<div class="page-head_agile_info_w3l">
+
+</div>
+<!-- //banner-2 -->
+<!-- page -->
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="index.html">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- //page -->
+<!-- checkout page -->
+<div class="privacy py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+            <span>C</span>heckout
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            @*<h4 class="mb-sm-4 mb-3">
+                    Your shopping cart contains:
+                    <span>3 Products</span>
+                </h4>*@
+            @if (Model != null)
+            {
+                using (Html.BeginForm("CartUpdate", "Cart", FormMethod.Post))
+                {
+                    <div class="table-responsive">
+                        <table class="timetable_sub">
+                            <thead>
+                                <tr>
+                                    <th>SL No.</th>
+                                    <th>Product</th>
+                                    <th>Quality</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{decimal total = 0; var i = 0; }
+                                @foreach (var cart in Model)
+                                {
+                                    i++;
+                                    <tr class="rem1">
+                                        <td class="invert">@i</td>
+                                        <td class="invert-image">
+                                            <a href="single.html">
+                                                <img src="~/Public/images/@cart.ProductImage" alt=" " class="img-responsive">
+                                            </a>
+                                        </td>
+                                        <td class="invert">
+                                            <div class="quantity">
+                                                <div class="quantity-select">
+                                                    @*<div class="entry value-minus">&nbsp;</div>*@
+                                                    <div>
+                                                        <input class="entry values" type="number" name="qty" value="@cart.Qty" min="0" />
+                                                    </div>
+                                                    @*<div class="entry value-plus active">&nbsp;</div>*@
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="invert">@cart.ProductName</td>
+                                        <td class="invert">$@cart.ProductPrice</td>
+                                        <td class="invert">@cart.Amount</td>
+                                        <td class="invert">
+                                            <div class="rem">
+                                                <a class="close3" href="@Url.Action("CartDelete", "Cart", new { productid = cart.ProductId })"></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    total += cart.Amount;
+                                }
+                                <tr>
+                                    <td colspan="4">
+                                        <a class="btn btn-success" href="@Url.Action("Index", "Product")">Tiếp tục mua sắm</a>
+                                        <input type="submit" class="btn btn-danger" name="update" value="Cập nhật giỏ hàng" />
+                                        <a class="btn btn-warning" href="@Url.Action("CartDeleteAll", "Cart")">Xóa đơn hàng</a>
+                                    </td>
+                                    <td>Tổng thanh toán</td>
+                                    <td colspan="2">@total</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+            else
+            {
+                <h3 class="text-danger">CHƯA CÓ SẢN PHẨM TRONG GIỎ HÀNG!</h3>
+            }
+        </div>
+        <div class="checkout-left">
+            <div class="address_form_agile mt-sm-5 mt-4">
+                <h4 class="mb-sm-4 mb-3">Add a new Details</h4>
+                <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                        <div class="information-wrapper">
+                            <div class="first-row">
+                                <div class="controls form-group">
+                                    <input class="billing-address-name form-control" type="text" name="name" placeholder="Full Name" required="">
+                                </div>
+                                <div class="w3_agileits_card_number_grids">
+                                    <div class="w3_agileits_card_number_grid_left form-group">
+                                        <div class="controls">
+                                            <input type="text" class="form-control" placeholder="Mobile Number" name="number" required="">
+                                        </div>
+                                    </div>
+                                    <div class="w3_agileits_card_number_grid_right form-group">
+                                        <div class="controls">
+                                            <input type="text" class="form-control" placeholder="Landmark" name="landmark" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="controls form-group">
+                                    <input type="text" class="form-control" placeholder="Town/City" name="city" required="">
+                                </div>
+                                <div class="controls form-group">
+                                    <select class="option-w3ls">
+                                        <option>Select Address type</option>
+                                        <option>Office</option>
+                                        <option>Home</option>
+                                        <option>Commercial</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="submit check_out btn">Delivery to this Address</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="checkout-right-basket">
+                    <a href="payment.html">
+                        Make a Payment
+                        <span class="far fa-hand-point-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //checkout page -->
